@@ -83,6 +83,7 @@ class Main(QWidget):
         layout.addWidget(clear_button, row, column, alignment=(alignment))
         size_clear_button = QSize(30, 30)
         clear_button.setFixedSize(size_clear_button)
+        clear_button.clicked.connect(lambda: textarea.setText(""))
 
     def language_switcher(self, value):
         for item in self.languages:
