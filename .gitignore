@@ -171,3 +171,6 @@ cython_debug/
 
 # Logo SVG
 misc/logo/logo.svg
+
+# Models
+language_models

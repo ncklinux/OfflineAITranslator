@@ -10,7 +10,8 @@ from PyQt6.QtWidgets import (
     QComboBox,
 )
 from PyQt6.QtGui import QIcon
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QSize
+import qtawesome as qta
 
 from common.translator import Translator
 
@@ -67,7 +68,21 @@ class Main(QWidget):
             )
         )
 
+        self.clear_button(
+            layout, self.source_textarea, 1, 0, (Qt.AlignTop | Qt.AlignRight)
+        )
+        self.clear_button(
+            layout, self.target_textarea, 1, 1, (Qt.AlignTop | Qt.AlignRight)
+        )
+
         self.setLayout(layout)
+
+    def clear_button(self, layout, textarea, row, column, alignment):
+        clear_icon = qta.icon("fa5.times-circle")
+        clear_button = QPushButton(clear_icon, "")
+        layout.addWidget(clear_button, row, column, alignment=(alignment))
+        size_clear_button = QSize(30, 30)
+        clear_button.setFixedSize(size_clear_button)
 
     def language_switcher(self, value):
         for item in self.languages:
