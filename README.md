@@ -24,7 +24,7 @@ $ git checkout -b YOUR_BRANCH_NAME
 # It is always recommended to use a virtual environment, use the following commands to manage libraries with pip
 $ python -m venv .venv
 $ source .venv/bin/activate
-$ pip install pyqt6 torch transformers sentencepiece sacremoses pyinstaller black
+$ pip install pyqt6 torch transformers sentencepiece sacremoses qtawesome pyinstaller black
 $ pip list
 ```
 
