@@ -58,7 +58,7 @@ $ echo $TRANSFORMERS_OFFLINE
 $ python main.py
 ```
 
-![Screenshot](./misc/screenshots/translator_screenshot.png)
+![Screenshot](./misc/screenshots/translator_screenshot_20240526.png)
 
 ## Motivation
 
