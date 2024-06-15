@@ -68,13 +68,28 @@ The aim of the project is privacy protection :wink: There are many tools that ca
 
 [Mypy](https://mypy-lang.org) is an optional static type checker for Python that aims to combine the benefits of dynamic (or "duck") typing and static typing. Mypy combines the expressive power and convenience of Python with a powerful type system and compile-time type checking. Mypy type checks standard Python programs; run them using any Python VM with basically no runtime overhead.
 
+```bash
+$ pip install mypy
+$ mypy --ignore-missing-imports main.py
+$ mypy --ignore-missing-imports common/translator.py
+# Success: no issues found in 1 source file
+```
+
 ## Linter
 
 Linting means running a quality tool on the code. The linter will perform syntax checks and give you instructions, security tips and help you avoid bugs. There are some linters out there, the most tried and tested is [Flake8](https://flake8.pycqa.org), "the wrapper which verifies pep8, pyflakes, and circular complexity", also has a low false positive rate.
 
+```bash
+$ pip install flake8
+```
+
 ## Formatting
 
 [Black](https://pypi.org/project/black/) is the uncompromising Python code formatter. By using it, you agree to cede control over minutiae of hand-formatting. In return, Black gives you speed, determinism, and freedom from pycodestyle nagging about formatting. You will save time and mental energy for more important matters.
+
+```bash
+$ pip install black
+```
 
 ## License
 
