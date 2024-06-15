@@ -1,4 +1,5 @@
 import sys
+from typing import Any
 
 from PyQt6.QtWidgets import (
     QApplication,
@@ -16,13 +17,13 @@ from common.translator import Translator
 
 
 class Main(QWidget):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.resize(1600, 900)
         self.setWindowTitle("Offline AI Translator")
         self.setWindowIcon(QIcon("misc/logo/icon.png"))
-        self.source_textarea: str = None
-        self.target_textarea: str = None
+        self.source_textarea: Any = None
+        self.target_textarea: Any = None
         self.languages: dict[str, str] = {
             "English": "en",
             "Deutsch": "de",
@@ -77,7 +78,7 @@ class Main(QWidget):
         self.setLayout(layout)
 
     def clear_button(
-        self, layout: any, textarea: any, row: int, column: int, alignment: int
+        self, layout: Any, textarea: Any, row: int, column: int, alignment: int
     ) -> None:
         clear_icon = qta.icon("fa5.times-circle")
         clear_button = QPushButton(clear_icon, "")
