@@ -1,5 +1,4 @@
 import sys
-import os
 
 from PyQt6.QtWidgets import (
     QApplication,
@@ -22,9 +21,9 @@ class Main(QWidget):
         self.resize(1600, 900)
         self.setWindowTitle("Offline AI Translator")
         self.setWindowIcon(QIcon("misc/logo/icon.png"))
-        self.source_textarea = None
-        self.target_textarea = None
-        self.languages = {
+        self.source_textarea: str = None
+        self.target_textarea: str = None
+        self.languages: dict[str, str] = {
             "English": "en",
             "Deutsch": "de",
         }
@@ -45,7 +44,7 @@ class Main(QWidget):
         for item in self.languages:
             self.target_combobox.addItem(item)
         self.target_combobox.setCurrentText(
-            self.language_switcher(self.languages[self.target_combobox.currentText()])
+            self.lang_swap(self.languages[self.target_combobox.currentText()])
         )
         layout.addWidget(self.target_combobox, 0, 1)
 
@@ -77,7 +76,9 @@ class Main(QWidget):
 
         self.setLayout(layout)
 
-    def clear_button(self, layout, textarea, row, column, alignment):
+    def clear_button(
+        self, layout: any, textarea: any, row: int, column: int, alignment: int
+    ) -> None:
         clear_icon = qta.icon("fa5.times-circle")
         clear_button = QPushButton(clear_icon, "")
         layout.addWidget(clear_button, row, column, alignment=(alignment))
@@ -85,18 +86,16 @@ class Main(QWidget):
         clear_button.setFixedSize(size_clear_button)
         clear_button.clicked.connect(lambda: textarea.setText(""))
 
-    def language_switcher(self, value):
+    def lang_swap(self, value) -> str:
         for item in self.languages:
             if self.languages[item] != value:
                 return item
 
-    def switch_lang_on_change(self, value):
-        self.target_combobox.setCurrentText(self.language_switcher(value))
+    def switch_lang_on_change(self, value: str) -> None:
+        self.target_combobox.setCurrentText(self.lang_swap(value))
 
-    def translate(self, source_language, target_language, text):
-        translated_text = Translator(
-            source_language, target_language, text
-        ).set_translate()
+    def translate(self, src_lang: str, trg_lang: str, text: str) -> None:
+        translated_text = Translator(src_lang, trg_lang, text).set_translate()
         self.target_textarea.setText(translated_text)
 
 
