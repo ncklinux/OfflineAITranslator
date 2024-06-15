@@ -62,7 +62,19 @@ $ python main.py
 
 ## Motivation
 
-The aim of the project is privacy protection :wink: There are many tools that can be used for Offline Translation, but as soon as you get back online, they will sync all data to remote servers. Use Wireshark and see for yourself, you will be surprised.
+The aim of the project is privacy protection :wink: There are many tools that can be used for Offline Translation, but as soon as you get back online, they will sync all data to remote servers. Use [Wireshark](https://www.wireshark.org) and see for yourself, you will be surprised.
+
+## Type Annotations
+
+[Mypy](https://mypy-lang.org) is an optional static type checker for Python that aims to combine the benefits of dynamic (or "duck") typing and static typing. Mypy combines the expressive power and convenience of Python with a powerful type system and compile-time type checking. Mypy type checks standard Python programs; run them using any Python VM with basically no runtime overhead.
+
+## Linter
+
+Linting means running a quality tool on the code. The linter will perform syntax checks and give you instructions, security tips and help you avoid bugs. There are some linters out there, the most tried and tested is [Flake8](https://flake8.pycqa.org), "the wrapper which verifies pep8, pyflakes, and circular complexity", also has a low false positive rate.
+
+## Formatting
+
+[Black](https://pypi.org/project/black/) is the uncompromising Python code formatter. By using it, you agree to cede control over minutiae of hand-formatting. In return, Black gives you speed, determinism, and freedom from pycodestyle nagging about formatting. You will save time and mental energy for more important matters.
 
 ## License
 
