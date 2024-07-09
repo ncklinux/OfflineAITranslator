@@ -24,7 +24,7 @@ $ git checkout -b YOUR_BRANCH_NAME
 # It is always recommended to use a virtual environment, use the following commands to manage libraries with pip
 $ python -m venv .venv
 $ source .venv/bin/activate
-$ pip install pyqt6 torch transformers sentencepiece sacremoses qtawesome pyinstaller black mypy flake8
+$ pip install pyqt6 torch transformers sentencepiece sacremoses qtawesome pyinstaller black mypy flake8 bandit
 $ pip list
 ```
 
@@ -74,9 +74,14 @@ $ mypy --ignore-missing-imports common/translator.py
 # Success: no issues found in 1 source file
 ```
 
-## Linter
+## Linting
 
-Linting means running a quality tool on the code. The linter will perform syntax checks and give you instructions, security tips and help you avoid bugs. There are some linters out there, the most tried and tested is [Flake8](https://flake8.pycqa.org), "the wrapper which verifies pep8, pyflakes, and circular complexity", also has a low false positive rate.
+Python linting, also known as code linting or static code analysis, is the process of analyzing Python code for potential errors, bugs, security and stylistic issues. The term "lint" comes from the idea of using a lint roller to remove tangled threads from fabric, and in this context, Python linting is like using a tool to "lint" or clean up your Python code to make it more readable, maintainable, and error-free.
+
+- There are some linters out there, the most tried and tested is [Flake8](https://flake8.pycqa.org), "the wrapper which verifies pep8, pyflakes, and circular complexity", also has a low false positive rate.
+- [Bandit](https://bandit.readthedocs.io/en/latest/) is a tool designed to find common security issues in Python code. To do this, Bandit processes each file, builds an AST from it, and runs appropriate plugins against the AST nodes. Once Bandit has finished scanning all the files, it generates a report.
+
+![Screenshot](./misc/screenshots/bandit.png)
 
 ## Formatting
 
