@@ -68,7 +68,7 @@ class Main(QWidget):
         layout.addWidget(target_container, 2, 1)
 
         # Translate button
-        self.btn_translate = QPushButton()  # changed from local to instance variable
+        self.btn_translate = QPushButton()  # Changed from local to instance variable
         self.btn_translate.setText("Translate")
         layout.addWidget(self.btn_translate, 3, 0, 1, 2)
         self.btn_translate.clicked.connect(
@@ -78,7 +78,7 @@ class Main(QWidget):
                 self.source_textarea.toPlainText(),
             )
         )
-        self.btn_translate.setFixedHeight(60)  # set to your desired height in pixels
+        self.btn_translate.setFixedHeight(60)  # Set height in pixels
         self.btn_translate.setEnabled(False)  # Disabled by default
 
         # Connect signal to enable/disable translate button
