@@ -1,4 +1,5 @@
 import sys
+import os
 from typing import Any
 
 from PyQt6.QtWidgets import (
@@ -14,6 +15,18 @@ from PyQt6.QtCore import Qt, QSize
 import qtawesome as qta
 
 from common.translator import Translator
+
+# Determine the base path for resource files
+# If running as a PyInstaller bundle (frozen), use the temporary extraction folder (sys._MEIPASS)
+# Otherwise, use the directory containing the current script
+if getattr(sys, "frozen", False):
+    base_path = sys._MEIPASS
+else:
+    base_path = os.path.dirname(__file__)
+
+# For opus-mt-en-de and opus-mt-de-en lang models
+model_dir_en_de = os.path.join(base_path, "language_models", "opus-mt-en-de")
+model_dir_de_en = os.path.join(base_path, "language_models", "opus-mt-de-en")
 
 
 class Main(QWidget):
@@ -50,25 +63,25 @@ class Main(QWidget):
         )
         layout.addWidget(self.target_combobox, 0, 1)
 
-        # Switch language button below source combobox
+        # Switch language button
         self.btn_switch_lang = QPushButton("Switch Languages")
         layout.addWidget(self.btn_switch_lang, 1, 0, 1, 2)
         self.btn_switch_lang.clicked.connect(self.switch_languages)
 
-        # Source text area with clear button (below source combobox and switch button)
+        # Source text area with clear button
         source_container, self.source_textarea = (
             self.create_textarea_with_clear_button()
         )
         layout.addWidget(source_container, 2, 0)
 
-        # Target text area with clear button (below target combobox)
+        # Target text area with clear button
         target_container, self.target_textarea = (
             self.create_textarea_with_clear_button()
         )
         layout.addWidget(target_container, 2, 1)
 
-        # Translate button
-        self.btn_translate = QPushButton()  # Changed from local to instance variable
+        # Translate button (changed from local to instance variable)
+        self.btn_translate = QPushButton()
         self.btn_translate.setText("Translate")
         layout.addWidget(self.btn_translate, 3, 0, 1, 2)
         self.btn_translate.clicked.connect(
