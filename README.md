@@ -87,6 +87,81 @@ Python linting, also known as code linting or static code analysis, is the proce
 
 [Black](https://pypi.org/project/black/) is the uncompromising Python code formatter. By using it, you agree to cede control over minutiae of hand-formatting. In return, Black gives you speed, determinism, and freedom from pycodestyle nagging about formatting. You will save time and mental energy for more important matters.
 
+## DEB Package
+
+Here is a comprehensive packaging guide for the OfflineAITranslator app as a Debian/Ubuntu .deb package.
+
+```bash
+$ OfflineAITranslator
+$ source .venv/bin/activate
+$ pyinstaller --onefile --windowed --add-data "language_models/opus-mt-en-de:language_models/opus-mt-en-de" main.py
+
+# Test
+./dist/main
+
+#  Prepare the Package Directory Structure
+$ mkdir -p package/opt/OfflineAITranslator
+$ cp -r dist/main/* package/opt/OfflineAITranslator/
+
+# Launcher Script
+$ mkdir -p package/usr/local/bin
+$ echo -e '#!/bin/bash\n/opt/OfflineAITranslator/main "$@"' > package/usr/local/bin/offlineaitranslator
+$ chmod +x package/usr/local/bin/offlineaitranslator
+
+# Desktop Integration
+mkdir -p package/usr/share/applications
+cat <<EOF > package/usr/share/applications/offlineaitranslator.desktop
+[Desktop Entry]
+Name=OfflineAITranslator
+Exec=/usr/local/bin/offlineaitranslator
+Icon=/opt/OfflineAITranslator/youricon.png
+Type=Application
+Categories=Utility;
+EOF
+
+# Build the .deb Package
+sudo apt install ruby
+gem install --user-install fpm
+export PATH="$PATH:$HOME/.gem/ruby/$(ls $HOME/.gem/ruby)/bin"
+fpm -s dir -t deb -n offlineaitranslator -v 1.0.0 -C package .
+
+# Test the Package
+sudo dpkg -i offlineaitranslator_1.0.0_amd64.deb
+offlineaitranslator
+```
+
+If you have multiple large models and use `--onefile`, the executable will become extremely large and unwieldy, this is not practical for distribution, especially as the number and size of models grows.
+
+```bash
+# Remove old builds to avoid confusion
+$ rm -rf dist build
+
+# This creates a folder with the executable and all dependencies, and launches much faster (no extraction step)
+$ pyinstaller --onedir --windowed \
+  --add-data "language_models/opus-mt-en-de:language_models/opus-mt-en-de" \
+  --add-data "language_models/opus-mt-de-en:language_models/opus-mt-de-en" \
+  main.py
+
+$ tree -L 2 dist
+# dist
+# └── main
+#     ├── _internal
+#     |   ├── language_models
+#     |   |   ├── opus-mt-de-en
+#     |   |   │   └── Model files ...
+#     |   |   └── opus-mt-en-de
+#     |   |       └── Model files ...
+#     |   └── Many more directories and files here ... (the tree is huge)
+#     └── main
+#
+# 777 directories, 4601 files
+
+# Test
+$ ./dist/main/main
+```
+
+Then, rerun/repeat the above commands after the Test step `./dist/main`, this approach will significantly enhance performance :wink: by executing the binary directly.
+
 ## Troubleshooting
 
 If you encountered the following module error, in fact, any similar module error `No module named 'pip'`, see below for more details:
