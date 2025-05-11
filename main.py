@@ -33,6 +33,7 @@ class Main(QWidget):
 
         layout = QGridLayout()
 
+        # Language selection
         for item in self.languages:
             self.source_combobox.addItem(item)
         layout.addWidget(self.source_combobox, 0, 0)
@@ -49,48 +50,88 @@ class Main(QWidget):
         )
         layout.addWidget(self.target_combobox, 0, 1)
 
-        self.source_textarea = QTextEdit()
-        self.source_textarea.setText("")
-        layout.addWidget(self.source_textarea, 1, 0)
+        # Switch language button below source combobox
+        self.btn_switch_lang = QPushButton("Switch Languages")
+        layout.addWidget(self.btn_switch_lang, 1, 0, 1, 2)
+        self.btn_switch_lang.clicked.connect(self.switch_languages)
 
-        self.target_textarea = QTextEdit()
-        self.target_textarea.setText("")
-        layout.addWidget(self.target_textarea, 1, 1)
+        # Source text area with clear button (below source combobox and switch button)
+        source_container, self.source_textarea = (
+            self.create_textarea_with_clear_button()
+        )
+        layout.addWidget(source_container, 2, 0)
 
-        btn_translate = QPushButton()
-        btn_translate.setText("Translate")
-        layout.addWidget(btn_translate, 2, 0, 2, 2)
-        btn_translate.clicked.connect(
+        # Target text area with clear button (below target combobox)
+        target_container, self.target_textarea = (
+            self.create_textarea_with_clear_button()
+        )
+        layout.addWidget(target_container, 2, 1)
+
+        # Translate button
+        self.btn_translate = QPushButton()  # changed from local to instance variable
+        self.btn_translate.setText("Translate")
+        layout.addWidget(self.btn_translate, 3, 0, 1, 2)
+        self.btn_translate.clicked.connect(
             lambda: self.translate(
                 self.languages[self.source_combobox.currentText()],
                 self.languages[self.target_combobox.currentText()],
                 self.source_textarea.toPlainText(),
             )
         )
+        self.btn_translate.setFixedHeight(60)  # set to your desired height in pixels
+        self.btn_translate.setEnabled(False)  # Disabled by default
 
-        self.clear_button(
-            layout, self.source_textarea, 1, 0, (Qt.AlignTop | Qt.AlignRight)
-        )
-        self.clear_button(
-            layout, self.target_textarea, 1, 1, (Qt.AlignTop | Qt.AlignRight)
-        )
+        # Connect signal to enable/disable translate button
+        self.source_textarea.textChanged.connect(self.update_translate_button_state)
 
         self.setLayout(layout)
 
-    def clear_button(
-        self, layout: Any, textarea: Any, row: int, column: int, alignment: int
-    ) -> None:
+    def create_textarea_with_clear_button(self) -> tuple[QWidget, QTextEdit]:
+        container = QWidget()
+        layout = QGridLayout(container)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+
+        textarea = QTextEdit()
         clear_icon = qta.icon("fa5.times-circle")
         clear_button = QPushButton(clear_icon, "")
-        layout.addWidget(clear_button, row, column, alignment=(alignment))
-        size_clear_button = QSize(30, 30)
-        clear_button.setFixedSize(size_clear_button)
-        clear_button.clicked.connect(lambda: textarea.setText(""))
+        clear_button.setFixedSize(QSize(24, 24))
+        clear_button.setToolTip("Clear text")
+        clear_button.setCursor(Qt.CursorShape.PointingHandCursor)
+        # clear_button.setFlat(True)  # Optional
+
+        # Add clear button to layout (row 0, col 1), aligned top-right
+        layout.addWidget(
+            clear_button,
+            0,
+            1,
+            alignment=Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTop,
+        )
+
+        # Set minimum height for row 1 (adds space below clear button)
+        layout.setRowMinimumHeight(1, 6)  # Pixels of space after the clear button
+
+        # Add textarea to layout (row 2, col 0, spanning 1 row and 2 columns)
+        layout.addWidget(textarea, 2, 0, 1, 2)
+
+        clear_button.clicked.connect(lambda: textarea.clear())
+
+        return container, textarea
+
+    def update_translate_button_state(self) -> None:
+        text = self.source_textarea.toPlainText().strip()
+        self.btn_translate.setEnabled(bool(text))
 
     def lang_swap(self, value) -> str:
         for item in self.languages:
             if self.languages[item] != value:
                 return item
+
+    def switch_languages(self) -> None:
+        src_index = self.source_combobox.currentIndex()
+        trg_index = self.target_combobox.currentIndex()
+        self.source_combobox.setCurrentIndex(trg_index)
+        self.target_combobox.setCurrentIndex(src_index)
 
     def switch_lang_on_change(self, value: str) -> None:
         self.target_combobox.setCurrentText(self.lang_swap(value))
