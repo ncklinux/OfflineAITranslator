@@ -8,41 +8,41 @@ An Offline AI multilingual Translation software
 
 ```bash
 # Arch Linux
-$ python -V && pip --version
-$ sudo pacman -S git-lfs
+python -V && pip --version
+sudo pacman -S git-lfs
 
 # Ubuntu
-$ python3 -V && pip3 --version
-$ curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
-$ sudo apt install git-lfs
+python3 -V && pip3 --version
+curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+sudo apt install git-lfs
 
 # Clone repository
-$ git clone git@github.com:ncklinux/OfflineAITranslator.git
-$ cd OfflineAITranslator
-$ git checkout -b YOUR_BRANCH_NAME
+git clone git@github.com:ncklinux/OfflineAITranslator.git
+cd OfflineAITranslator
+git checkout -b YOUR_BRANCH_NAME
 
 # It is always recommended to use a virtual environment, use the following commands to manage libraries with pip (for Debian/Ubuntu use python3 and pip3)
-$ python -m venv .venv
-$ source .venv/bin/activate
-$ pip install pyqt6 torch transformers sentencepiece sacremoses qtawesome pyinstaller black mypy flake8 bandit
-$ pip list
+python -m venv .venv
+source .venv/bin/activate
+pip install pyqt6 torch transformers sentencepiece sacremoses qtawesome pyinstaller black mypy flake8 bandit
+pip list
 ```
 
 We use [Opus-MT](https://github.com/Helsinki-NLP/Opus-MT) models, based on [Marian-NMT](https://marian-nmt.github.io/), trained on [OPUS](https://opus.nlpl.eu/).
 
 ```bash
 # Download models
-$ cd language_models
-$ git clone https://huggingface.co/Helsinki-NLP/opus-mt-en-de
-$ cd opus-mt-en-de
-$ git lfs install
-$ git lfs pull
-$ cd ..
-$ git clone https://huggingface.co/Helsinki-NLP/opus-mt-de-en
-$ cd opus-mt-de-en
-$ git lfs install
-$ git lfs pull
-$ cd ../../
+cd language_models
+git clone https://huggingface.co/Helsinki-NLP/opus-mt-en-de
+cd opus-mt-en-de
+git lfs install
+git lfs pull
+cd ..
+git clone https://huggingface.co/Helsinki-NLP/opus-mt-de-en
+cd opus-mt-de-en
+git lfs install
+git lfs pull
+cd ../../
 ```
 
 Run Transformers in a firewalled or offline environment and launch.
@@ -69,8 +69,8 @@ The aim of the project is privacy protection :wink: There are many tools that ca
 [Mypy](https://mypy-lang.org) is an optional static type checker for Python that aims to combine the benefits of dynamic (or "duck") typing and static typing. Mypy combines the expressive power and convenience of Python with a powerful type system and compile-time type checking. Mypy type checks standard Python programs; run them using any Python VM with basically no runtime overhead.
 
 ```bash
-$ mypy --ignore-missing-imports main.py
-$ mypy --ignore-missing-imports common/translator.py
+mypy --ignore-missing-imports main.py
+mypy --ignore-missing-imports common/translator.py
 # Success: no issues found in 1 source file
 ```
 
@@ -92,21 +92,21 @@ Python linting, also known as code linting or static code analysis, is the proce
 Here is a comprehensive packaging guide for the OfflineAITranslator app as a Debian/Ubuntu .deb package.
 
 ```bash
-$ OfflineAITranslator
-$ source .venv/bin/activate
-$ pyinstaller --onefile --windowed --add-data "language_models/opus-mt-en-de:language_models/opus-mt-en-de" main.py
+cd OfflineAITranslator
+source .venv/bin/activate
+pyinstaller --onefile --windowed --add-data "language_models/opus-mt-en-de:language_models/opus-mt-en-de" main.py
 
 # Test
 ./dist/main
 
 #  Prepare the Package Directory Structure
-$ mkdir -p package/opt/OfflineAITranslator
-$ cp -r dist/main/* package/opt/OfflineAITranslator/
+mkdir -p package/opt/OfflineAITranslator
+cp -r dist/main/* package/opt/OfflineAITranslator/
 
 # Launcher Script
-$ mkdir -p package/usr/local/bin
-$ echo -e '#!/bin/bash\n/opt/OfflineAITranslator/main "$@"' > package/usr/local/bin/offlineaitranslator
-$ chmod +x package/usr/local/bin/offlineaitranslator
+mkdir -p package/usr/local/bin
+echo -e '#!/bin/bash\n/opt/OfflineAITranslator/main "$@"' > package/usr/local/bin/offlineaitranslator
+chmod +x package/usr/local/bin/offlineaitranslator
 
 # Desktop Integration
 mkdir -p package/usr/share/applications
@@ -134,15 +134,15 @@ If you have multiple large models and use `--onefile`, the executable will becom
 
 ```bash
 # Remove old builds to avoid confusion
-$ rm -rf dist build
+rm -rf dist build
 
 # This creates a folder with the executable and all dependencies, and launches much faster (no extraction step)
-$ pyinstaller --onedir --windowed \
+pyinstaller --onedir --windowed \
   --add-data "language_models/opus-mt-en-de:language_models/opus-mt-en-de" \
   --add-data "language_models/opus-mt-de-en:language_models/opus-mt-de-en" \
   main.py
 
-$ tree -L 2 dist
+tree -L 2 dist
 # dist
 # └── main
 #     ├── _internal
@@ -157,7 +157,7 @@ $ tree -L 2 dist
 # 777 directories, 4601 files
 
 # Test
-$ ./dist/main/main
+./dist/main/main
 ```
 
 Then, rerun/repeat the above commands after the Test step `./dist/main`, this approach will significantly enhance performance :wink: by executing the binary directly.
@@ -167,7 +167,7 @@ Then, rerun/repeat the above commands after the Test step `./dist/main`, this ap
 If you encountered the following module error, in fact, any similar module error `No module named 'pip'`, see below for more details:
 
 ```bash
-$ python main.py
+python main.py
 
 # Traceback (most recent call last):
 #   File ".venv/bin/pip", line 5, in <module>
@@ -178,11 +178,11 @@ $ python main.py
 It turns out that Virtualenv is not up to date, use the following commands to fix the problem:
 
 ```bash
-$ deactivate
-$ rm -rf .venv
-$ python -m venv .venv
-$ source .venv/bin/activate
-$ pip install ...
+deactivate
+rm -rf .venv
+python -m venv .venv
+source .venv/bin/activate
+pip install ...
 ```
 
 And reinstall all the PIP packages as you did at the [beginning](https://github.com/ncklinux/OfflineAITranslator?tab=readme-ov-file#build-setup) when you started with the program, then execute `python main.py` again, this time should work without module issues.
