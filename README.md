@@ -89,7 +89,7 @@ Python linting, also known as code linting or static code analysis, is the proce
 
 ## DEB Package
 
-Here is a comprehensive packaging guide for the OfflineAITranslator app as a Debian/Ubuntu .deb package.
+Here is a comprehensive packaging guide for the OfflineAITranslator app as a Debian/Ubuntu `.deb` package.
 
 ```bash
 cd OfflineAITranslator
